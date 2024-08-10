@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Payment = require("./paymentModel");
 const { Schema } = mongoose;
 
 const bookingSchema = new Schema(
@@ -37,7 +38,12 @@ const bookingSchema = new Schema(
   },
   { timestamps: true }
 );
-
+bookingSchema.pre("save",async function (next) {
+  const payment = await Payment.findOne({user:this.user, paymentStatus:"pending"})
+  payment.booking = this._id;
+  payment.paymentStatus = "completed"
+  await payment.save()
+})
 const Booking = mongoose.model("Booking", bookingSchema);
 
 module.exports = Booking;

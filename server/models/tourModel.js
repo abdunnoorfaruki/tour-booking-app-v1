@@ -48,19 +48,11 @@ const tourSchema = new Schema(
         required: [true, "Cover image public_id is required"],
       },
     },
-
-    bookings: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Booking",
-      },
-    ],
-    reviews: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Review",
-      },
-    ],
+    tourOwner:{
+      type:Schema.Types.ObjectId,
+      ref:"User",
+      required:[true,"Tour owner ID is crquired to create new tour"]
+    }
   },
   { timestamps: true }
 );

@@ -3,10 +3,20 @@ const { Schema } = mongoose;
 
 const paymentSchema = new Schema(
   {
-    bookingId: {
+    booking: {
       type: Schema.Types.ObjectId,
       ref: "Booking",
-      required: [true, "Booking reference is required"],
+      // required: [true, "Booking reference is required"],
+    },
+    user:{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "User reference is required"],
+    },
+    tour:{
+      type: Schema.Types.ObjectId,
+      ref: "Tour",
+      required: [true, "Tour reference is required"],
     },
     amount: {
       type: Number,
@@ -16,7 +26,7 @@ const paymentSchema = new Schema(
     paymentMethod: {
       type: String,
       required: [true, "Payment method is required"],
-      enum: ["credit card", "debit card", "PayPal", "other"],
+      enum: ["card", "debit card", "PayPal", "other"],
     },
     transactionId: {
       type: String,
@@ -26,6 +36,7 @@ const paymentSchema = new Schema(
       type: String,
       required: [true, "Payment status is required"],
       enum: ["completed", "refunded", "pending"],
+      default:"pending"
     },
   },
   { timestamps: true }
