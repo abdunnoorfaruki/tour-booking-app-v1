@@ -4,6 +4,7 @@ const Payment = require("../models/paymentModel");
 const Tour = require("../models/tourModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
+const factory = require("./handlerFactory");
 
 exports.createCheckoutSession = catchAsync(async (req, res, next) => {
   // find the tour wiht the help of toureId which is comming from request parameters
@@ -80,7 +81,7 @@ exports.createBooking = catchAsync(async (req, res, next) => {
     user,
     tour,
     payment: payment._id,
-  }).populate({path:"payment", select:"paymentStatus"});
+  }).populate({ path: "payment", select: "paymentStatus" });
   if (isTourBooked && isTourBooked.payment.paymentStatus === "completed")
     return next(
       new AppError(
@@ -100,12 +101,13 @@ exports.createBooking = catchAsync(async (req, res, next) => {
   if (!newToorBook)
     return next(new AppError("Error to book new tour, pleasy try again", 500));
 
-
   res.status(201).json({
     status: "success",
-    message:"New bookin created successfully",
+    message: "New bookin created successfully",
     data: {
       data: newToorBook,
     },
   });
 });
+
+exports.getAllBookings = factory.getAll(Booking);
