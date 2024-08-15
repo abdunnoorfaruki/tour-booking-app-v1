@@ -1,0 +1,24 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "feature(server)/tour-review",
+    "feature/reset-password",
+    "feature/tour-booking",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "feature(server)/tour-review": "main",
+    "feature/reset-password": "main",
+    "feature/tour-booking": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "feature(server)/tour-review",
+    "feature/reset-password",
+    "feature/tour-booking",
+    "origin"
+  ]
+}

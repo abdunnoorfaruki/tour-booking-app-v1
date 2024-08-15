@@ -47,16 +47,30 @@ exports.getOne = (Model, populateOptions) =>
  * @param {Object} Model - Mongoose model to query.
  * @returns {Function} - Express middleware function.
  */
-exports.getAll = (Model) =>
+exports.getAll = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
+    const queries = req.query
     let filter = {};
     if (req.user.role !== "admin") filter = { user: req.user._id };
-
-    const features = new APIFeatures(Model.find(filter), req.query)
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
+    if(queries) {
+      filter = {
+        ...queries
+      }
+    }
+    let features;
+    if (populateOptions) {
+      features = new APIFeatures(Model.find(filter).populate(populateOptions), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+    } else {
+      features = new APIFeatures(Model.find(filter), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+    }
 
     const doc = await features.query;
 

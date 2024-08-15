@@ -10,7 +10,7 @@ class APIFeatures {
     excludeFields.forEach((el) => delete queryObj[el]);
 
     // add spcial operators of mongoose
-    const queryStr = JSON.stringify(queryObj);
+    let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
 
     this.query = this.query.find(JSON.parse(queryStr));

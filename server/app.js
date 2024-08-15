@@ -7,6 +7,7 @@ const userRouter = require("./routes/userRoutes");
 const authRouter = require("./routes/authRoutes");
 const adminRouter = require("./routes/adminRoutes");
 const bookingRouter = require("./routes/bookingRoutes");
+const reviewRouter = require("./routes/reviewRoutes");
 
 const app = express();
 
@@ -21,7 +22,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/admin", adminRouter);
-app.use("/api/v1/bookings", bookingRouter)
+app.use("/api/v1/users/bookings", bookingRouter)
+app.use('/api/v1/reviews', reviewRouter)
 
 // END
 app.all("*", (req, res, next) => {

@@ -98,6 +98,7 @@ exports.createBooking = catchAsync(async (req, res, next) => {
     numberOfPersons: 10,
     totalAmount: parseInt(price, 10),
   });
+
   if (!newToorBook)
     return next(new AppError("Error to book new tour, pleasy try again", 500));
 
@@ -110,4 +111,12 @@ exports.createBooking = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getAllBookings = factory.getAll(Booking);
+exports.getAllBookings = factory.getAll(Booking, [
+  { path: "user", select: "name" },
+  { path: "payment", select: "amount paymentMethod paymentStatus" },
+  {path:"tour", select:"title location tourOwner", populate: {
+    path: 'tourOwner',
+    select:"name",
+    model: 'User'
+  }}
+]);
